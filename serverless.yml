@@ -1,0 +1,119 @@
+org: neagle
+app: ptolemy
+service: ptolemy
+frameworkVersion: '3'
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  profile: decipher-serverless
+  region: us-east-1
+  timeout: 30
+  environment:
+    BOT_USER_OAUTH_TOKEN: ${param:BOT_USER_OAUTH_TOKEN}
+    CALENDAR_ID: ${param:CALENDAR_ID}
+
+package:
+  individually: true
+  patterns:
+    - auth/**
+
+functions:
+  announcer:
+    handler: src/handlers/announcer.handler
+    description: Make announcements to Slack channels
+    events:
+      # Minutes Hours Day-of-month Month Day-of-week Year
+      # Don't assume AWS ScheduleExpressions map directly to normal cron!
+      # @see https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html
+
+      # Every Monday, let general know who's out this week
+      - schedule:
+          rate: cron(0 14 ? * MON *)
+          enabled: true
+          input:
+            command: 'out'
+            args: 'this week'
+            channels: 'general'
+
+      # Every Friday, let general know who's out NEXT week
+      - schedule:
+          rate: cron(1 14 ? * FRI *)
+          enabled: true
+          input:
+            command: 'out'
+            args: 'next week'
+            channels: 'general'
+
+  responder:
+    handler: src/handlers/responder.handler
+    description: Respond to Slack events
+    events:
+      - http:
+          method: post
+          path: '/ptolemy/responder'
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - x-itcom-clientid
+            allowCredentials: false
+
+  pto:
+    handler: src/handlers/pto.handler
+    description: Add PTO to the calendar
+    events:
+      - http:
+          method: post
+          path: '/ptolemy/pto'
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - x-itcom-clientid
+            allowCredentials: false
+
+  interactive:
+    handler: src/handlers/interactive.handler
+    description: Handle interactive components
+    events:
+      - http:
+          method: post
+          path: '/ptolemy/interactive'
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - x-itcom-clientid
+            allowCredentials: false
+
+  out:
+    handler: src/handlers/slashCommands.handler
+    description: Receive outgoing request from Slack
+    events:
+      - http:
+          method: post
+          path: '/ptolemy/out'
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - x-itcom-clientid
+            allowCredentials: false

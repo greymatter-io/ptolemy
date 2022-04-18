@@ -1,0 +1,44 @@
+{
+  "name": "ptolemy",
+  "version": "2.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "env TZ='Etc/GMT' jest",
+    "lint": "eslint --ext .js ./src",
+    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
+    "precommit": "npm run eslint-check && npm run lint"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@slack/client": "^4.3.1",
+    "@slack/events-api": "^1.0.1",
+    "@slack/web-api": "^5.7.0",
+    "chrono-node": "^1.4.4",
+    "dotenv": "^6.0.0",
+    "googleapis": "^47.0.0",
+    "moment-timezone": "^0.5.27",
+    "prettier-config-standard": "^1.0.1"
+  },
+  "devDependencies": {
+    "clipboardy": "^1.2.3",
+    "eslint": "^7.5.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-config-prettier-standard": "^3.0.1",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "jest": "^25.1.0",
+    "prettier": "^1.14.3",
+    "yargs": "^15.1.0"
+  },
+  "prettier": {
+    "useTabs": true,
+    "singleQuote": true,
+    "semi": false
+  }
+}
