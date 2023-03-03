@@ -113,8 +113,6 @@ module.exports = {
 			timeMax: timeMax.endOf('day').format()
 		})
 
-		console.log('events', events)
-
 		const dateFormat = 'dddd, MMMM D'
 
 		events = events.map(event => {

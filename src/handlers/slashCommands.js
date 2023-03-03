@@ -10,7 +10,6 @@ const actions = require('../actions.js')
 const slashCommands = {
 	out: argumentText => {
 		console.log('argumentText', argumentText)
-		console.log('typeof argumentText', typeof argumentText)
 
 		let command
 

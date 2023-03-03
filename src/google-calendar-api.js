@@ -92,8 +92,6 @@ async function listEvents(options) {
 	const auth = await authorize()
 	const calendar = google.calendar({ version: 'v3', auth })
 
-	console.log('process.env.CALENDAR_ID', process.env.CALENDAR_ID)
-
 	// Reference: https://developers.google.com/calendar/v3/reference/events/list
 
 	const defaultOptions = {
