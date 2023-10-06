@@ -84,3 +84,21 @@ npm test
 ```
 
 We also use prettier: we recommend setting up your editor to run prettier to reformat your code on save.
+
+### Notes
+
+The actual deployment of PTOlemy relies on these pieces:
+
+* A Google Cloud Project to enable use of the Google Calendar API for the Greymatter calendar ([Manage Google Cloud Project](https://console.cloud.google.com/iam-admin/iam?authuser=1&orgonly=true&project=ptolemy-268919&supportedpurview=organizationId), currently Carolyn Dadant and Kyle Gallagher are owners)
+* Access to AWS to deploy 1) an API Gateway, and 2) lambdas
+* A Slack app where you can manage the slash commands the app uses and point them toward the AWS endpoints
+* A Serverless account to manage the deployment
+
+The app should continue running fine on its own for the time being, but if/when it needs to be redeployed, it will take a little bit of setting up.
+
+* Need to create an account on [Serverless.com](https://serverless.com/) and create an app. It will need to have an AWS Provider set of access/secret keys added to be able to deploy. The current IAM role for the app is `decipher-serverless`, and the current access key is `AKIAW2U7EPPADXA6I6WD`. You can't retrieve the secret key, so a new one will have to be created. Please contact n.eagle@gmail.com to have the PTOlemy app transferred to you, _or_ you can recreate one using the new AWS IAM role.
+* [Manage Slack Apps](https://api.slack.com/apps)
+* [PTOlemy Slack App](https://api.slack.com/apps/ASSTHQJ9X)
+* [PTOlemy Slash Commands](https://api.slack.com/apps/ASSTHQJ9X/slash-commands?)
+* [Manage PTOlemy's (Slack App) Collaborators](https://app.slack.com/app-settings/T07TJ06A2/ASSTHQJ9X/collaborators)
+* [Guide to AWS Credentials for Serverless](https://www.serverless.com/framework/docs/providers/aws/guide/credentials)
